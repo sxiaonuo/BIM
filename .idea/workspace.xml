@@ -4,32 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="邹乐凡代码">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/BIM.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/profiles_settings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/__init__.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/detect_connect.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/utils/hot.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/桌面应用程序/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线检测/debug.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线检测/detect_line.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线检测/hotmain.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线过滤组件/main.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线过滤组件/实体评分组件.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/粗线检测/fix.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/粗线检测/main.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/粗线检测/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/连通发现/detect_connect.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/连通发现/旧的main.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/连通发现/测试detect_line.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/连通发现/自造数据.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/连通发现/连通发现函数.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/now_good.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/detect_line.py" afterDir="false" />
+    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="将.idea添加至gitignore">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/detect_connect.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/detect_connect.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/消除线元畸变/main.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/消除线元畸变/main.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/直线过滤组件/实体评分组件.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/直线过滤组件/实体评分组件.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -56,8 +36,27 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {}
+}</component>
+  <component name="GitHubPullRequestState">{
+  &quot;prStates&quot;: [
+    {
+      &quot;id&quot;: {
+        &quot;id&quot;: &quot;PR_kwDOOCLNOc6NGAVe&quot;,
+        &quot;number&quot;: 1
+      },
+      &quot;lastSeen&quot;: 1740978702485
+    }
+  ]
+}</component>
   <component name="HighlightingSettingsPerFile">
     <setting file="file://$PROJECT_DIR$/utils/last_edition.py" root0="FORCE_HIGHLIGHTING" />
   </component>
@@ -78,7 +77,7 @@
     &quot;Python.测试detect_line.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;lzk&quot;,
     &quot;last_opened_file_path&quot;: &quot;E:/code/pythonCode/BIM/static/img&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
@@ -200,8 +199,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.detect_connect" />
         <item itemvalue="Python.测试detect_line" />
+        <item itemvalue="Python.detect_connect" />
+        <item itemvalue="Python.main" />
+        <item itemvalue="Python.detect_connect" />
       </list>
     </recent_temporary>
   </component>
@@ -231,6 +232,7 @@
       <workItem from="1740836712592" duration="4980000" />
       <workItem from="1740895488606" duration="5527000" />
       <workItem from="1740922242627" duration="1410000" />
+      <workItem from="1740993038071" duration="2534000" />
     </task>
     <task id="LOCAL-00001" summary="邹乐凡代码">
       <option name="closed" value="true" />
@@ -247,6 +249,36 @@
     <option name="version" value="3" />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="lzk" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="HEAD" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="origin/main" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
     <option name="TAB_STATES">
       <map>
         <entry key="MAIN">
@@ -265,6 +297,6 @@
     <SUITE FILE_PATH="coverage/BIM$detect_connect.coverage" NAME="detect_connect Coverage Results" MODIFIED="1740736531882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/连通发现" />
     <SUITE FILE_PATH="coverage/BIM$now_good.coverage" NAME="now_good Coverage Results" MODIFIED="1740725009981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/BIM$detect_line.coverage" NAME="测试detect_line Coverage Results" MODIFIED="1740721348585" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/连通发现" />
-    <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1740840636282" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/粗线检测" />
+    <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1740993133002" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/粗线检测" />
   </component>
 </project>

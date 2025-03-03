@@ -31,12 +31,22 @@ from yacs.config import CfgNode as CN
 
 # 计算最大坐标空间
 def get_max_coord(lines):
-    max_x = 0
-    max_y = 0
-    for line in lines:
-        max_x = max(max_x, line[0][0], line[1][0])
-        max_y = max(max_y, line[0][1], line[1][1])
+    """
+    :param lines:
+    :return: 这一坨直线的最大坐标
+    """
+    max_x = max([line[0][0] for line in lines] + [line[1][0] for line in lines])
+    max_y = max([line[0][1] for line in lines] + [line[1][1] for line in lines])
     return max_x, max_y
+
+def get_min_coord(lines):
+    """
+    :param lines:
+    :return: 这一坨直线的最小坐标
+    """
+    min_x = min([line[0][0] for line in lines] + [line[1][0] for line in lines])
+    min_y = min([line[0][1] for line in lines] + [line[1][1] for line in lines])
+    return min_x, min_y
 
 # 按照一定尺寸拆分网格
 def split_grid(max_x, max_y, grid_size):
@@ -149,9 +159,7 @@ def preprocess(lines, grid_size):
     grid_x, grid_y = split_grid(max_x, max_y, grid_size)
 
     grid_dict = {}
-    num_lines = len(lines)
     for idx, line in enumerate(lines):
-        # print(idx, num_lines)
         grids = line_coord2grids(line, grid_size, grid_x, grid_y)
         for grid in grids:
             if grid not in grid_dict:
@@ -372,6 +380,33 @@ def detect_connect(lines, grid_size=1000, eps=3):
         groups.append([lines[idx] for idx in set_])
 
     return groups
+
+def detect_anything(lines, grid_size, pattern):
+    """
+    这个函数由detect_connect修改而来，用于加速判断全体直线中的两两关系
+    :param lines: 直线输入
+    :param grid_size: 分块
+    :param pattern: 判断规则，返回bool
+    :return: 返回pairs
+    """
+    grid_dict = preprocess(lines, grid_size)
+
+    pairs = []
+
+    dx = [0, 0, 1, 0, -1]
+    dy = [0, -1, 0, 1, 0]
+    for key in tqdm(grid_dict.keys()):
+        lines_in_grid = []
+        for d in zip(dx, dy):
+            if (key[0] + d[0], key[1] + d[1]) not in grid_dict:
+                continue
+            lines_in_grid.extend(grid_dict[(key[0] + d[0], key[1] + d[1])])
+            for idx, line1_idx in enumerate(lines_in_grid):
+                for jdx, line2_idx in enumerate(lines_in_grid[idx + 1:]):
+                    if pattern(lines[line1_idx], lines[line2_idx]):
+                        pairs.append((line1_idx, line2_idx))
+
+    return pairs
 
 if __name__ == '__main__':
     """
