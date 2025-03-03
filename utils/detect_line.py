@@ -154,7 +154,6 @@ def get_eline(img, cfg):
 
 
 def get_eline_faster(img, cfg):
-    print("get_eline_faster!!")
     """
     快的get_eline
 
@@ -179,21 +178,25 @@ def get_eline_faster(img, cfg):
     head = n1[0]
     tail = n1[0]
     for i, it in enumerate(n1[1:]):
-        if it[0] == n1[i][0] and it[1] - n1[i][1] == 1:
+        if it[0] == n1[i][0] and it[1] - n1[i][1] == 1 and (img[it] == img[n1[i]]).all():
             tail = it
             continue
         h_line.append([head[0], head[1], tail[0], tail[1]])
         head = it
         tail = it
+    if head != tail:
+        h_line.append([head[0], head[1], tail[0], tail[1]])
 
     v_line = []
     for i, it in enumerate(n2[1:]):
-        if it[1] == n2[i][1] and it[0] - n2[i][0] == 1:
+        if it[1] == n2[i][1] and it[0] - n2[i][0] == 1 and (img[it] == img[n2[i]]).all():
             tail = it
             continue
         v_line.append([head[0], head[1], tail[0], tail[1]])
         head = it
         tail = it
+    if head != tail:
+        v_line.append([head[0], head[1], tail[0], tail[1]])
 
     dot1 = [(line[0], line[1]) for line in h_line if (line[0], line[1]) == (line[2], line[3])]
     dot2 = [(line[0], line[1]) for line in v_line if (line[0], line[1]) == (line[2], line[3])]
@@ -237,12 +240,6 @@ def get_eline_faster(img, cfg):
 
         elines.append(el)
 
-    draw(1,elines,cfg,ori_img)
-
-    linelist = [[eline.pt1,eline.pt2,eline.color] for eline in elines]
-    linelist = sorted(linelist, key=lambda x: x[0][0])
-    print(linelist)
-    print(len(elines))
     return elines
 
 
@@ -371,27 +368,6 @@ def merge_line(group):
     return [(x0, y0), (x1, y1), color]
 
 
-def draw(id,lines,cfg,img):
-    white = np.ones_like(ori_img) * 255
-    for line in lines:
-        color = line.color
-        # color = (0,0,0)
-        pt1 = line.pt1
-        pt2 = line.pt2
-        cv2.line(white, pt1, pt2, color, 1)
-    Image.fromarray(white).save(cfg.SAVE_DIR + 'test' + str(id) + '.png')
-
-
-def draw2(id,lines,cfg,img):
-    white = np.ones_like(ori_img) * 255
-    for line in lines:
-        color = line[2]
-        pt1 = line[0]
-        pt2 = line[1]
-        cv2.line(white, pt1, pt2, color, 1)
-    Image.fromarray(white).save(cfg.SAVE_DIR + 'test' + str(id) + '.png')
-
-
 def detect_one_img(img, cfg):
     """ 返回的是一堆合并完的线，而且上了颜色，线的性质暂时不是非常清楚 """
     # elines 返回值:带有斜率，颜色的线元
@@ -464,7 +440,7 @@ def detect_one_img(img, cfg):
     # 黏合线元为直线，包含上颜色
     lines = [merge_eline(group) for group in egbl]
 
-    return lines
+    return lines, elines
 
 
 
@@ -578,8 +554,9 @@ def concat_line(total_lines, cfg):
 def detect_lines(img, cfg=get_cfg_defaults()):
     # 裁剪。这个版本的方法时间复杂度与图片尺寸呈近似线性关系，其实不再需要用裁剪的方式加快检测速度，因此我使用了2048的裁剪尺寸，仅为了不让等待那么焦虑。
     if img.shape[:2] < (cfg.DETECT.HEIGHT, cfg.DETECT.WIDTH):
-        lines = detect_one_img(img, cfg)
-        return lines, lines
+        lines, all_elines = detect_one_img(img, cfg)
+        all_elines = [[eline.pt1, eline.pt2, eline.color] for eline in all_elines]
+        return concat_line(lines, cfg), lines, all_elines
 
     # 计算裁剪坐标
     img_width, img_height = img.shape[:2]
@@ -591,15 +568,19 @@ def detect_lines(img, cfg=get_cfg_defaults()):
 
     # 裁剪，检测每一个部分
     total_lines = []
+    all_elines = []
     for i, j in itr:
         crop_img = img[i:min(i + crop_width, img_width), j:min(j + crop_height, img_height)]
-        lines = detect_one_img(crop_img, cfg)
+        lines, elines = detect_one_img(crop_img, cfg)
         total_lines.extend(
             [[(line[0][0] + j, line[0][1] + i), (line[1][0] + j, line[1][1] + i), line[2]] for line in lines])
+        all_elines.extend(
+            [[(eline.pt1[0] + j, eline.pt1[1] + i), (eline.pt2[0] + j, eline.pt2[1] + i), eline.color] for eline in elines]
+        )
     # 合并不同patch的直线
     lines = concat_line(total_lines, cfg)
 
-    return lines, total_lines
+    return lines, total_lines, all_elines
 
 
 if __name__ == '__main__':
@@ -611,19 +592,28 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    ori_img = cv2.imread('src/t1.png')
+    # ori_img = cv2.imread('../static/b1_f.png')
     # ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
+    ori_img = cv2.imread('../static/img/b1.png')
+    ori_img = ori_img[5000:8000, 5000:7000, :]
     ori_img = cv2.cvtColor(ori_img, cv2.COLOR_BGR2RGB)
     Image.fromarray(ori_img).save(cfg.SAVE_DIR + 'ori.png')
-    lines, total_lines = detect_lines(ori_img, cfg)
+    lines, total_lines, all_elines = detect_lines(ori_img, cfg)
     ######################################################
-
-    img_height, img_width= ori_img.shape[:2]
-    line_color = (0, 0, 0)  # 白色线，在黑色背景上绘制
-    crop_width, crop_height = 20,20
-    grid_size = (crop_width, crop_height)
-
-    # 绘制效果图
+    # 绘制
+    print('num of lines', len(lines))
+    for idx, line in enumerate(lines):
+        print(line)
+        if idx == 5:
+            print("...")
+            break
+    white = np.ones_like(ori_img) * 255
+    for line in lines:
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        pt1 = line[0]
+        pt2 = line[1]
+        cv2.line(white, pt1, pt2, color, 1)
+    Image.fromarray(white).save(cfg.SAVE_DIR + 'randomcolor.png')
     white = np.ones_like(ori_img) * 255
     for line in lines:
         color = line[2]
@@ -632,24 +622,22 @@ if __name__ == '__main__':
         cv2.line(white, pt1, pt2, color, 1)
     Image.fromarray(white).save(cfg.SAVE_DIR + 'originalcolor.png')
 
-    # 求正确率
-    # 定义白色阈值
-    color_white = (255, 255, 255)
+    white = np.ones_like(ori_img) * 255
+    for line in total_lines:
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        cv2.line(white, line[0], line[1], color, 1)
+    Image.fromarray(white).save(cfg.SAVE_DIR + 'nocancat_randomcolor.png')
+    white = np.ones_like(ori_img) * 255
+    for line in total_lines:
+        cv2.line(white, line[0], line[1], line[2], 1)
+    Image.fromarray(white).save(cfg.SAVE_DIR + 'nocancat_originalcolor.png')
 
-    # 检查两个图像是否都是白色
-    both_white = np.all((ori_img == color_white) & (white == color_white), axis=-1)
-    # 检查两个图像是否颜色相同
-    same_color = np.all(ori_img == white, axis=-1)
-
-    # 统计不都是白色的像素
-    not_both_white = np.sum(~both_white)
-
-    # 统计颜色相同且都不为白色的像素
-    same_and_not_white = np.sum(same_color & ~both_white)
-    # print('1:',~both_white)
-    # print('2:',same_color & ~both_white)
-
-    # 输出结果
-    # print("Pixels that are not both white:", not_both_white)
-    # print("Pixels that are the same and not white:", same_and_not_white)
-    print("correct:", same_and_not_white / not_both_white)
+    white = np.ones_like(ori_img) * 255
+    for line in all_elines:
+        color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        cv2.line(white, line[0], line[1], color, 1)
+    Image.fromarray(white).save(cfg.SAVE_DIR + 'eline_randomcolor.png')
+    white = np.ones_like(ori_img) * 255
+    for line in all_elines:
+        cv2.line(white, line[0], line[1], line[2], 1)
+    Image.fromarray(white).save(cfg.SAVE_DIR + 'eline_originalcolor.png')
