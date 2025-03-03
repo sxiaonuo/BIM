@@ -1,3 +1,4 @@
+import operator
 from collections import defaultdict
 
 import cv2
@@ -45,6 +46,19 @@ def get_thin(img, cfg):
     thin = cv2.bitwise_not(closing - binary)
     return thin
 
+# 获取轮廓
+def get_contours(img):
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    nowhite = np.where(binary != 255)
+    nowhite = set(zip(*nowhite))
+
+    white = np.ones_like(img, dtype=np.uint8 ) * 255
+    for x, y in nowhite:
+        for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
+            if (x + dx, y + dy) not in nowhite:
+                white[x, y] = img[x, y]
+    return white
 
 class ELine:
     def __init__(self, pt1, pt2, type, k1, k2, color, volume):
@@ -161,8 +175,9 @@ def get_eline_faster(img, cfg):
     :param cfg:
     :return: 带有斜率，颜色的线元
     """
-    thin = get_thin(img, cfg)
+    thin = get_thin(img)
     w, h = thin.shape[:2]
+    thin = thin.sum(axis=2) / 3
     thin_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
     thin_pad[:-1, :-1] = thin
     img_pad = np.ones((w + 1, h + 1, 3), dtype=np.uint8) * 255
@@ -345,6 +360,7 @@ def merge_eline(group):
         dots.append(eline.pt1)
         dots.append(eline.pt2)
     dots = sorted(dots, key=lambda x: x[0])
+    # dots = sorted(dots, key=lambda x: (x[0], x[1]))
     x0 = dots[0][0]
     x1 = dots[-1][0]
     y0 = max(row[1] for row in dots)
@@ -360,7 +376,8 @@ def merge_line(group):
     for line in group:
         dots.append(line[0])
         dots.append(line[1])
-    dots = sorted(dots, key=lambda x: x[0])
+    # dots = sorted(dots, key=lambda x: x[0])
+    dots = sorted(dots, key=operator.itemgetter(0,1))
     x0 = dots[0][0]
     y0 = dots[0][1]
     x1 = dots[-1][0]
@@ -530,8 +547,7 @@ def concat_line(total_lines, cfg):
             color2 = line2[2]
             line2 = [*line2[0], *line2[1]]
             # 颜色相同，角度小于阈值，且不"重叠"
-            if color1 == color2 and _angle_between_lines(line1, line2) < cfg.ELINE.ANGLE and not _is_overlap(line1,
-                                                                                                             line2):
+            if color1 == color2 and _angle_between_lines(line1, line2) < cfg.ELINE.ANGLE and not _is_overlap(line1,line2):
                 # 补丁
                 if _get_k(line1) == float('inf') and line1[0] != line2[0]:
                     continue
@@ -592,10 +608,9 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    # ori_img = cv2.imread('../static/b1_f.png')
-    # ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
-    ori_img = cv2.imread('../static/img/b1.png')
-    ori_img = ori_img[5000:8000, 5000:7000, :]
+    ori_img = cv2.imread('src/1.png')
+    ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
+    # ori_img = ori_img[5000:8000, 5000:7000, :]
     ori_img = cv2.cvtColor(ori_img, cv2.COLOR_BGR2RGB)
     Image.fromarray(ori_img).save(cfg.SAVE_DIR + 'ori.png')
     lines, total_lines, all_elines = detect_lines(ori_img, cfg)
