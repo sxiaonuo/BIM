@@ -48,8 +48,15 @@ def get_min_coord(lines):
     min_y = min([line[0][1] for line in lines] + [line[1][1] for line in lines])
     return min_x, min_y
 
-# 按照一定尺寸拆分网格
+
 def split_grid(max_x, max_y, grid_size):
+    """
+    # 按照一定尺寸拆分网格
+    :param max_x:
+    :param max_y:
+    :param grid_size:
+    :return:
+    """
     grid_x = math.ceil(max_x / grid_size)
     grid_y = math.ceil(max_y / grid_size)
     return grid_x, grid_y
