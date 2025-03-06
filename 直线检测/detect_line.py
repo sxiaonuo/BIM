@@ -175,9 +175,8 @@ def get_eline_faster(img, cfg):
     :param cfg:
     :return: 带有斜率，颜色的线元
     """
-    thin = get_thin(img)
+    thin = get_thin(img, cfg)
     w, h = thin.shape[:2]
-    thin = thin.sum(axis=2) / 3
     thin_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
     thin_pad[:-1, :-1] = thin
     img_pad = np.ones((w + 1, h + 1, 3), dtype=np.uint8) * 255
@@ -360,7 +359,6 @@ def merge_eline(group):
         dots.append(eline.pt1)
         dots.append(eline.pt2)
     dots = sorted(dots, key=lambda x: x[0])
-    # dots = sorted(dots, key=lambda x: (x[0], x[1]))
     x0 = dots[0][0]
     x1 = dots[-1][0]
     y0 = max(row[1] for row in dots)
@@ -608,8 +606,9 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    ori_img = cv2.imread('src/1.png')
+    ori_img = cv2.imread('../static/img/3.png')
     ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
+    # ori_img = cv2.imread('../static/img/b1.png')
     # ori_img = ori_img[5000:8000, 5000:7000, :]
     ori_img = cv2.cvtColor(ori_img, cv2.COLOR_BGR2RGB)
     Image.fromarray(ori_img).save(cfg.SAVE_DIR + 'ori.png')
