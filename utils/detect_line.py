@@ -1,3 +1,4 @@
+import operator
 from collections import defaultdict
 
 import cv2
@@ -187,6 +188,8 @@ def get_eline_faster(img, cfg):
     if head != tail:
         h_line.append([head[0], head[1], tail[0], tail[1]])
 
+    head = n2[0]
+    tail = n2[0]
     v_line = []
     for i, it in enumerate(n2[1:]):
         if it[1] == n2[i][1] and it[0] - n2[i][0] == 1 and (img[it] == img[n2[i]]).all():
@@ -344,7 +347,8 @@ def merge_eline(group):
     for eline in group:
         dots.append(eline.pt1)
         dots.append(eline.pt2)
-    dots = sorted(dots, key=lambda x: x[0])
+    # dots = sorted(dots, key=lambda x: x[0])
+    dots = sorted(dots, key=operator.itemgetter(0, 1))
     x0 = dots[0][0]
     x1 = dots[-1][0]
     y0 = max(row[1] for row in dots)
@@ -592,10 +596,10 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    # ori_img = cv2.imread('../static/b1_f.png')
-    # ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
-    ori_img = cv2.imread('../static/img/b1.png')
-    ori_img = ori_img[5000:8000, 5000:7000, :]
+    ori_img = cv2.imread('../static/img/3.png')
+    ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
+    # ori_img = cv2.imread('../static/img/b1.png')
+    # ori_img = ori_img[5000:8000, 5000:7000, :]
     ori_img = cv2.cvtColor(ori_img, cv2.COLOR_BGR2RGB)
     Image.fromarray(ori_img).save(cfg.SAVE_DIR + 'ori.png')
     lines, total_lines, all_elines = detect_lines(ori_img, cfg)
