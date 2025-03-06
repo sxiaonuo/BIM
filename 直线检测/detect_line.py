@@ -374,8 +374,8 @@ def merge_line(group):
     for line in group:
         dots.append(line[0])
         dots.append(line[1])
-    # dots = sorted(dots, key=lambda x: x[0])
-    dots = sorted(dots, key=operator.itemgetter(0,1))
+    dots = sorted(dots, key=lambda x: x[0])
+    # dots = sorted(dots, key=operator.itemgetter(0,1))
     x0 = dots[0][0]
     y0 = dots[0][1]
     x1 = dots[-1][0]
@@ -606,10 +606,10 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    ori_img = cv2.imread('../static/img/3.png')
-    ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
-    # ori_img = cv2.imread('../static/img/b1.png')
-    # ori_img = ori_img[5000:8000, 5000:7000, :]
+    # ori_img = cv2.imread('../src/1.png')
+    # ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
+    ori_img = cv2.imread('../static/img/b1.png')
+    ori_img = ori_img[5000:8000, 5000:7000, :]
     ori_img = cv2.cvtColor(ori_img, cv2.COLOR_BGR2RGB)
     Image.fromarray(ori_img).save(cfg.SAVE_DIR + 'ori.png')
     lines, total_lines, all_elines = detect_lines(ori_img, cfg)
