@@ -22,7 +22,7 @@ def get_contours(img):
     white = np.ones_like(img, dtype=np.uint8 ) * 255
     for x, y in tqdm(nowhite):
         for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
-            if (x + dx, y + dy) not in nowhite and (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
+            if (x + dx, y + dy) not in nowhite or (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
                 white[x, y] = img[x, y]
     return white
 
@@ -33,4 +33,4 @@ if __name__ == '__main__':
 
     contours_img = get_contours(img)
     os.makedirs("workdir/run", exist_ok=True)
-    Image.fromarray(contours_img).save("workdir/run/b1_f.png")
+    Image.fromarray(contours_img).save("workdir/run/b1f.png")

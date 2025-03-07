@@ -7,6 +7,8 @@ import numpy as np
 import random
 import os
 import math
+
+from tqdm import tqdm
 from tqdm.contrib import itertools
 
 from yacs.config import CfgNode as CN
@@ -296,6 +298,21 @@ def get_eline_faster(img, cfg):
 
     return elines
 
+def get_contours(img):
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    nowhite = np.where(binary != 255)
+    nowhite = set(zip(*nowhite))
+    img_padding = np.zeros((img.shape[0] + 1, img.shape[1] + 1, 3), dtype=np.uint8)
+    img_padding[:-1, :-1, :] = img
+
+    white = np.ones_like(img, dtype=np.uint8 ) * 255
+    for x, y in nowhite:
+        for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
+            if (x + dx, y + dy) not in nowhite or (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
+                white[x, y] = img[x, y]
+    return white
+
 
 class ChainForwardStar:
     # 链式前向星
@@ -427,7 +444,11 @@ def detect_one_img(img, cfg):
     """ 返回的是一堆合并完的线，而且上了颜色，线的性质暂时不是非常清楚 """
     # elines 返回值:带有斜率，颜色的线元
     elines = get_eline_faster(img, cfg)
-    elines = eliminate_distortion(elines, img.shape[:2])
+    contours_img = get_contours(img)
+    for eline in elines:
+        cv2.line(contours_img, eline.pt1, eline.pt2, (255, 255, 255), 1)
+    contours_eline = get_eline_faster(contours_img, cfg)
+    elines = eliminate_distortion(elines + contours_eline, img.shape[:2])
     cfs = getlinks(elines, cfg)
     elines_group_by_line = []
 
@@ -648,7 +669,7 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    ori_img = cv2.imread('../static/img/b1f.png')
+    ori_img = cv2.imread('../static/img/b1.png')
     ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
     # ori_img = cv2.imread('../static/img/b1.png')
     # ori_img = ori_img[5000:8000, 5000:7000, :]

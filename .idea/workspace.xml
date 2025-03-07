@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="最完美的老版本&#10;1. 不包含粗线检测，不包含消除线元畸变&#10;2. 此提交删除了“直线检测”文件夹下的直线检测代码，以防混淆">
+    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/detect_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/detect_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/消除线元畸变/main.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/消除线元畸变/main.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/粗线检测/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/粗线检测/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -288,7 +288,7 @@
       <workItem from="1741187058723" duration="888000" />
       <workItem from="1741311097575" duration="2232000" />
       <workItem from="1741322546359" duration="854000" />
-      <workItem from="1741323874316" duration="623000" />
+      <workItem from="1741323874316" duration="2315000" />
     </task>
     <task id="LOCAL-00001" summary="邹乐凡代码">
       <option name="closed" value="true" />
@@ -314,7 +314,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741271929535</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测">
+      <option name="closed" value="true" />
+      <created>1741324832234</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1741324832234</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -367,13 +375,14 @@
     <MESSAGE value="detect_connect已完成" />
     <MESSAGE value="最完美的老版本" />
     <MESSAGE value="最完美的老版本&#10;1. 不包含粗线检测，不包含消除线元畸变&#10;2. 此提交删除了“直线检测”文件夹下的直线检测代码，以防混淆" />
-    <option name="LAST_COMMIT_MESSAGE" value="最完美的老版本&#10;1. 不包含粗线检测，不包含消除线元畸变&#10;2. 此提交删除了“直线检测”文件夹下的直线检测代码，以防混淆" />
+    <MESSAGE value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
+    <option name="LAST_COMMIT_MESSAGE" value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/BIM$detect_line__1_.coverage" NAME="detect_line (1) Coverage Results" MODIFIED="1741271064567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/BIM$detect_connect.coverage" NAME="detect_connect Coverage Results" MODIFIED="1740736531882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/连通发现" />
     <SUITE FILE_PATH="coverage/BIM$now_good.coverage" NAME="now_good Coverage Results" MODIFIED="1740725009981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/BIM$detect_line.coverage" NAME="detect_line Coverage Results" MODIFIED="1741324433314" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1741324220557" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/粗线检测" />
+    <SUITE FILE_PATH="coverage/BIM$detect_line.coverage" NAME="detect_line Coverage Results" MODIFIED="1741325867374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1741324954967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/粗线检测" />
   </component>
 </project>
