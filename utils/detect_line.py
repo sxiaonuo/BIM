@@ -76,6 +76,57 @@ class ELine:
         else:
             self.dir[3] = 1
 
+    def transform_coord(self, pt1:tuple, pt2:tuple):
+        assert len(pt1) == len(pt2) == 2 , "len(pt1) or len(pt2) is not 2"
+        self.pt1 = pt1
+        self.pt2 = pt2
+
+def eliminate_distortion(elines, img_size):
+    """
+    畸变消除
+    :param elines: [Eline, ...]
+    :param img_size: 图片尺寸（二元组），或最大能容纳线元的尺寸
+    :return: 返回消除畸变的新线元，与输入同格式
+    """
+
+    mp = np.ones((img_size[0], img_size[1]), dtype=np.uint8) * 255
+    for eline in elines:
+        x1, y1 = eline.pt1
+        x2, y2 = eline.pt2
+        if x1 == x2 and y1 == y2:
+            continue
+        if x1 == x2 and abs(y1 - y2) > 1:
+            cv2.line(mp, (x1, min(y1, y2) + 1), (x2, max(y1, y2) - 1), 0, 1)
+        elif y1 == y2 and abs(x1 - x2) > 1:
+            cv2.line(mp, (min(x1, x2) + 1, y1), (max(x1, x2) - 1, y2), 0, 1)
+        else:
+            continue
+
+    target = []
+    for idx, eline in enumerate(elines):
+        x1, y1 = eline.pt1
+        x2, y2 = eline.pt2
+        if mp[y1, x1] == 0:
+            target.append([x1, y1, idx])
+        elif mp[y2, x2] == 0:
+            target.append([x2, y2, idx])
+    # print(f"修正{len(target)}处")
+    for x, y, idx in target:
+        x1, y1 = elines[idx].pt1
+        x2, y2 = elines[idx].pt2
+        if x1 == x2:
+            y1, y2 = sorted([y1, y2])
+            if y == y1:
+                elines[idx].transform_coord((x1, y1 + 1), (x2, y2))
+            if y == y2:
+                elines[idx].transform_coord((x1, y1), (x2, y2 - 1))
+        if y1 == y2:
+            x1, x2 = sorted([x1, x2])
+            if x == x1:
+                elines[idx].transform_coord((x1 + 1, y1), (x2, y2))
+            if x == x2:
+                elines[idx].transform_coord((x1, y1), (x2 - 1, y2))
+    return elines
 
 def get_eline(img, cfg):
     """
@@ -376,6 +427,7 @@ def detect_one_img(img, cfg):
     """ 返回的是一堆合并完的线，而且上了颜色，线的性质暂时不是非常清楚 """
     # elines 返回值:带有斜率，颜色的线元
     elines = get_eline_faster(img, cfg)
+    elines = eliminate_distortion(elines, img.shape[:2])
     cfs = getlinks(elines, cfg)
     elines_group_by_line = []
 
@@ -596,7 +648,7 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    ori_img = cv2.imread('../static/img/3.png')
+    ori_img = cv2.imread('../static/img/b1f.png')
     ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
     # ori_img = cv2.imread('../static/img/b1.png')
     # ori_img = ori_img[5000:8000, 5000:7000, :]
