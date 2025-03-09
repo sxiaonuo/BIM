@@ -1,4 +1,4 @@
-/static/
+/static/record/
 /sz/
 /直线过滤组件/workdir/
 /粗线检测/workdir/
@@ -7,3 +7,4 @@
 
 /.idea/
 /utils/workdir/
+/直线检测/workdir/
