@@ -409,21 +409,81 @@ def getlinks(elines, cfg):
                         cfs.add_edge(i, dic[(dx, dy)])
     return cfs
 
+def cross(o, a, b):
+    """ 计算叉积：(a - o) × (b - o) """
+    return (a[0]-o[0])*(b[1]-o[1]) - (a[1]-o[1])*(b[0]-o[0])
+def convex_hull(points):
+    """ 计算凸包（Andrew's monotone chain算法） """
+    points = list(set(map(tuple, points)))  # 去重
+    if len(points) <= 1:
+        return points
+    points = sorted(points)  # 按x排序，x相同则按y排序
+
+    # 构建下凸包和上凸包
+    lower, upper = [], []
+    for p in points:
+        while len(lower) >= 2 and cross(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+    for p in reversed(points):
+        while len(upper) >= 2 and cross(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+
+    # 合并并去除重复端点
+    hull = lower[:-1] + upper[:-1]
+    return hull if len(hull) > 1 else hull * 2  # 处理共线情况
+
+def convex_hull_diameter(hull):
+    """
+    计算凸包直径及端点
+    返回： (最大距离, 点1坐标, 点2坐标)
+    """
+    n = len(hull)
+    if n <= 1:
+        return (0.0, hull[0], hull[0]) if n == 1 else (0.0, None, None)
+    if n == 2:
+        return (math.dist(hull[0], hull[1]), hull[0], hull[1])
+
+    max_dist = 0.0
+    point1, point2 = hull[0], hull[1]  # 初始端点
+    j = 1  # 对踵点指针
+
+    for i in range(n):
+        next_i = (i + 1) % n
+
+        # 旋转卡壳寻找对踵点
+        while True:
+            next_j = (j + 1) % n
+            # 比较移动j后的叉积变化
+            if cross(hull[i], hull[next_i], hull[next_j]) > cross(hull[i], hull[next_i], hull[j]):
+                j = next_j
+            else:
+                break
+
+        # 计算当前对踵点对的距离
+        current_dist = math.dist(hull[i], hull[j])
+        if current_dist > max_dist:
+            max_dist = current_dist
+            point1, point2 = hull[i], hull[j]
+
+        # 检查下一个边端点与当前j的距离
+        current_dist_next = math.dist(hull[next_i], hull[j])
+        if current_dist_next > max_dist:
+            max_dist = current_dist_next
+            point1, point2 = hull[next_i], hull[j]
+
+    return max_dist, point1, point2
+
 def merge_eline(group):
     dots = []
     color = group[0].color
     for eline in group:
         dots.append(eline.pt1)
         dots.append(eline.pt2)
-    # dots = sorted(dots, key=lambda x: x[0])
-    dots = sorted(dots, key=operator.itemgetter(0, 1))
-    x0 = dots[0][0]
-    x1 = dots[-1][0]
-    y0 = max(row[1] for row in dots)
-    y1 = min(row[1] for row in dots)
-    if not(((x0,y0) in dots) and ((x1,y1) in dots)):
-        y0,y1 = y1,y0
-    return [(x0, y0), (x1, y1), color]
+    diameter, p1, p2 = convex_hull_diameter(convex_hull(dots))
+
+    return [p1, p2, color]
 
 def merge_line(group):
     # 黏合线
@@ -433,11 +493,8 @@ def merge_line(group):
         dots.append(line[0])
         dots.append(line[1])
     dots = sorted(dots, key=lambda x: x[0])
-    x0 = dots[0][0]
-    y0 = dots[0][1]
-    x1 = dots[-1][0]
-    y1 = dots[-1][1]
-    return [(x0, y0), (x1, y1), color]
+    diameter, p1, p2 = convex_hull_diameter(convex_hull(dots))
+    return [p1, p2, color]
 
 
 def detect_one_img(img, cfg):
