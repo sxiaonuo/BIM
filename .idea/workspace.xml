@@ -4,10 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测">
+    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/utils/detect_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/detect_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/粗线检测/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/粗线检测/main.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -108,7 +107,7 @@
       <recent name="E:\code\pythonCode\BIM\src_img" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.detect_line">
+  <component name="RunManager" selected="Python.detect_connect">
     <configuration name="detect_connect" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BIM" />
       <option name="ENV_FILES" value="" />
@@ -249,7 +248,6 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.detect_line" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.测试detect_line" />
         <item itemvalue="Python.detect_connect" />
@@ -288,7 +286,8 @@
       <workItem from="1741187058723" duration="888000" />
       <workItem from="1741311097575" duration="2232000" />
       <workItem from="1741322546359" duration="854000" />
-      <workItem from="1741323874316" duration="2315000" />
+      <workItem from="1741323874316" duration="2649000" />
+      <workItem from="1741507125748" duration="73000" />
     </task>
     <task id="LOCAL-00001" summary="邹乐凡代码">
       <option name="closed" value="true" />
@@ -322,7 +321,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741324832234</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法">
+      <option name="closed" value="true" />
+      <created>1741326406080</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741326406080</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,7 +383,8 @@
     <MESSAGE value="最完美的老版本" />
     <MESSAGE value="最完美的老版本&#10;1. 不包含粗线检测，不包含消除线元畸变&#10;2. 此提交删除了“直线检测”文件夹下的直线检测代码，以防混淆" />
     <MESSAGE value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
-    <option name="LAST_COMMIT_MESSAGE" value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
+    <MESSAGE value="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法" />
+    <option name="LAST_COMMIT_MESSAGE" value="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/BIM$detect_line__1_.coverage" NAME="detect_line (1) Coverage Results" MODIFIED="1741271064567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
