@@ -206,6 +206,25 @@ def get_eline(img, cfg):
 
     return elines
 
+def get_contours(img):
+    """
+    输入原图，去芯，保留图片轮廓。存在颜色差异则判断为轮廓
+    :param img:
+    :return: 还是图片
+    """
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    nowhite = np.where(binary != 255)
+    nowhite = set(zip(*nowhite))
+    img_padding = np.zeros((img.shape[0] + 1, img.shape[1] + 1, 3), dtype=np.uint8)
+    img_padding[:-1, :-1, :] = img
+
+    white = np.ones_like(img, dtype=np.uint8 ) * 255
+    for x, y in nowhite:
+        for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
+            if (x + dx, y + dy) not in nowhite or (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
+                white[x, y] = img[x, y]
+    return white
 
 def get_eline_faster(img, cfg):
     """
@@ -215,15 +234,15 @@ def get_eline_faster(img, cfg):
     :param cfg:
     :return: 带有斜率，颜色的线元
     """
-    thin = get_thin(img, cfg)
-    w, h = thin.shape[:2]
-    thin_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
-    thin_pad[:-1, :-1] = thin
+    w, h = img.shape[:2]
+    contours_img = get_contours(img)
+    gray_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
+    gray_pad[:-1, :-1] = cv2.cvtColor(contours_img, cv2.COLOR_BGR2GRAY)
     img_pad = np.ones((w + 1, h + 1, 3), dtype=np.uint8) * 255
-    img_pad[:-1, :-1, :] = img
+    img_pad[:-1, :-1, :] = contours_img
     h_line = []
-
-    nowhite = np.where(thin_pad != 255)
+    _, binary = cv2.threshold(gray_pad, 245, 255, cv2.THRESH_BINARY)
+    nowhite = np.where(binary != 255)
     nowhite = list(zip(*nowhite))
     if len(nowhite) == 0:
         return []
@@ -293,26 +312,15 @@ def get_eline_faster(img, cfg):
             el.append_dir(-1)
         if tuple(img_pad[minx - 1, maxy + 1]) == color:
             el.append_dir(-1)
-
+        # 如果一个线元同时拥有左对角和有点对角方向，做复制为两个
+        if el.dir_eq([1, 1, 0, 0]):
+            el2 = ELine((pt1[1], pt1[0]), (pt2[1], pt2[0]), 'dot' if pt1 == pt2 else 'line', k1, k2, color, volume)
+            el2.dir = np.array([1, 0, 0, 0])
+            elines.append(el2)
+            el.dir = np.array([0, 1, 0, 0])
         elines.append(el)
 
     return elines
-
-def get_contours(img):
-    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
-    nowhite = np.where(binary != 255)
-    nowhite = set(zip(*nowhite))
-    img_padding = np.zeros((img.shape[0] + 1, img.shape[1] + 1, 3), dtype=np.uint8)
-    img_padding[:-1, :-1, :] = img
-
-    white = np.ones_like(img, dtype=np.uint8 ) * 255
-    for x, y in nowhite:
-        for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
-            if (x + dx, y + dy) not in nowhite or (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
-                white[x, y] = img[x, y]
-    return white
-
 
 class ChainForwardStar:
     # 链式前向星
@@ -501,11 +509,7 @@ def detect_one_img(img, cfg):
     """ 返回的是一堆合并完的线，而且上了颜色，线的性质暂时不是非常清楚 """
     # elines 返回值:带有斜率，颜色的线元
     elines = get_eline_faster(img, cfg)
-    contours_img = get_contours(img)
-    for eline in elines:
-        cv2.line(contours_img, eline.pt1, eline.pt2, (255, 255, 255), 1)
-    contours_eline = get_eline_faster(contours_img, cfg)
-    elines = eliminate_distortion(elines + contours_eline, img.shape[:2])
+    elines = eliminate_distortion(elines, img.shape[:2])
     cfs = getlinks(elines, cfg)
     elines_group_by_line = []
 
