@@ -506,12 +506,16 @@ def detect_one_img(img, cfg):
         cv2.line(contours_img, eline.pt1, eline.pt2, (255, 255, 255), 1)
     contours_eline = get_eline_faster(contours_img, cfg)
     elines = eliminate_distortion(elines + contours_eline, img.shape[:2])
+    # getlinks 返回一个图，预处理线元的相邻关系
     cfs = getlinks(elines, cfg)
+    # 最后是用来把线元粘合成线的
     elines_group_by_line = []
 
-    # 先遍历1-5纯血直线
+    # 先遍历1-5纯血直线 纯血直线：是完全由同一种体积线元组成的斜线
+    # 第一维是线的长度，第二维是线的序号
     group_by_volume = {}
     for idx, eline in enumerate(elines):
+        # 按照线的长度进行分类塞入数组group_by_volume，
         if eline.volume not in group_by_volume:
             group_by_volume[eline.volume] = []
         group_by_volume[eline.volume].append(idx)
@@ -523,6 +527,7 @@ def detect_one_img(img, cfg):
             eline = elines[eline_idx]
             for eline2_idx in cfs.get_neighbors(eline_idx):
                 eline2 = elines[eline2_idx]
+                # 发现eline和eline2长的一样就合并，eline2是eline邻近的线元
                 if (eline.color == eline2.color and eline.volume == eline2.volume and eline.dir_eq(eline2.dir)
                         and (eline.volume == 1 or (eline.k1 + eline2.k2) and (eline2.k1 + eline.k2))):
                     uf.union(eline_idx, eline2_idx)
@@ -531,7 +536,9 @@ def detect_one_img(img, cfg):
     # 剩余的线  用来再做一次上面的操作
     other_elines = []
     for i, set_ in enumerate(sets):
+        # 这个color没用到？有没有人来看看要不要删
         color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
+        # 使用MAX_CONTINUE为阈值进行区分某个长度的线的集合是否足够大，不然就归类到other_elines里面去
         if len(set_) >= cfg.MAX_CONTINUE:
             elines_group_by_line.append(set_)
         else:
@@ -540,6 +547,7 @@ def detect_one_img(img, cfg):
 
     # 混合遍历 , 大1 小1 等于
     group_by_volume = {}
+    # 把other_elines里的线按照线的长度进行分类塞入数组group_by_volume，
     for idx in other_elines:
         eline = elines[idx]
         if eline.volume not in group_by_volume:
@@ -548,6 +556,7 @@ def detect_one_img(img, cfg):
 
     uf = UnionFind(len(elines))  # 重置并查集
     for key in group_by_volume.keys():
+        # 查找差值为-1，0，1的线元（因为这样是有可能他们是在同一条直线上的）
         for di in [-1, 0, 1]:
             if key + di in group_by_volume.keys():
                 for eline1_idx in group_by_volume[key]:
@@ -564,6 +573,7 @@ def detect_one_img(img, cfg):
         if len(set_) > 1:
             elines_group_by_line.append(set_)
         else:
+            # 为啥这样就要放进elines_group_by_line呢？ Zlf:我觉得应该是所有东西最后都要放到一块
             if set_[0] in other_elines:
                 elines_group_by_line.append(set_)
 
@@ -571,9 +581,8 @@ def detect_one_img(img, cfg):
     egbl = []  # 真的不知道该怎么起名了
     for group in elines_group_by_line:
         egbl.append([elines[i] for i in group])
-    # 黏合线元为直线，包含上颜色
+    # 黏合线元为直线，包含上颜色，(zlf:包含上颜色 ！！这一步是不是没有上颜色！！)
     lines = [merge_eline(group) for group in egbl]
-
     return lines, elines
 
 
