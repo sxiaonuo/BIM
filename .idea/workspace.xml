@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="【直线检测】使用凸包直径优化直线检测的合并步骤">
-      <change afterPath="$PROJECT_DIR$/直线检测/copy.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线检测/debug1.ipynb" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/直线检测/debug1.py" afterDir="false" />
+    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="新增处理alone">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/直线检测/copy.py" beforeDir="false" afterPath="$PROJECT_DIR$/直线检测/copy.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/直线检测/debug1.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/直线检测/debug1.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,7 +110,7 @@
       <recent name="E:\code\pythonCode\BIM\src_img" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.debug1">
+  <component name="RunManager" selected="Python.copy">
     <configuration name="copy" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BIM" />
       <option name="ENV_FILES" value="" />
@@ -321,8 +320,8 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.debug1" />
         <item itemvalue="Python.copy" />
+        <item itemvalue="Python.debug1" />
         <item itemvalue="Python.main" />
         <item itemvalue="Python.测试detect_line" />
         <item itemvalue="Python.detect_connect" />
@@ -365,7 +364,8 @@
       <workItem from="1741662863634" duration="2371000" />
       <workItem from="1741789387613" duration="3869000" />
       <workItem from="1741855310681" duration="11734000" />
-      <workItem from="1741928344625" duration="2131000" />
+      <workItem from="1741928344625" duration="2875000" />
+      <workItem from="1741940407307" duration="5977000" />
     </task>
     <task id="LOCAL-00001" summary="邹乐凡代码">
       <option name="closed" value="true" />
@@ -415,7 +415,15 @@
       <option name="project" value="LOCAL" />
       <updated>1741526844435</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="新增处理alone">
+      <option name="closed" value="true" />
+      <created>1741930521968</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1741930521968</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -471,14 +479,15 @@
     <MESSAGE value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
     <MESSAGE value="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法" />
     <MESSAGE value="【直线检测】使用凸包直径优化直线检测的合并步骤" />
-    <option name="LAST_COMMIT_MESSAGE" value="【直线检测】使用凸包直径优化直线检测的合并步骤" />
+    <MESSAGE value="新增处理alone" />
+    <option name="LAST_COMMIT_MESSAGE" value="新增处理alone" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/BIM$debug1.coverage" NAME="debug1 Coverage Results" MODIFIED="1741866292801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/直线检测" />
     <SUITE FILE_PATH="coverage/BIM$detect_line__1_.coverage" NAME="detect_line (1) Coverage Results" MODIFIED="1741271064567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/BIM$detect_connect.coverage" NAME="detect_connect Coverage Results" MODIFIED="1740736531882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/连通发现" />
     <SUITE FILE_PATH="coverage/BIM$now_good.coverage" NAME="now_good Coverage Results" MODIFIED="1740725009981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/BIM$copy.coverage" NAME="copy Coverage Results" MODIFIED="1741857326042" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/直线检测" />
+    <SUITE FILE_PATH="coverage/BIM$copy.coverage" NAME="copy Coverage Results" MODIFIED="1741946336029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/直线检测" />
     <SUITE FILE_PATH="coverage/BIM$detect_line.coverage" NAME="detect_line Coverage Results" MODIFIED="1741526270591" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
     <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1741324954967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/粗线检测" />
   </component>

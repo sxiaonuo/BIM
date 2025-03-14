@@ -566,9 +566,10 @@ def detect_one_img(img, cfg):
             elines_group_by_line.append(set_)
         else:
             if set_[0] in other_elines:
-                elines_group_by_line.append(set_)
-                if elines[set_[0]].volume <= 5:         # 很小的alone线
+                if elines[set_[0]].volume <= 6:         # 很小的alone线
                     alone.append(elines[set_[0]])
+                else:
+                    elines_group_by_line.append(set_)
 
     # len(elines_group_by_line)
     egbl = []  # 真的不知道该怎么起名了
@@ -577,9 +578,54 @@ def detect_one_img(img, cfg):
     # 黏合线元为直线，包含上颜色
     lines = [merge_eline(group) for group in egbl]
 
+    # 3月13日新增步骤，用于将很小的alone线元归入附近的直线
+    pt_dict = {}  # 存储点对应的直线
+    # pair = [] # 用于存储哪些线需要被合并，不一定是严格的二元组。
+    pair_uf = UnionFind(len(lines) + 2 *len(alone))
+    for idx, line in enumerate(lines):
+        pt_dict[line[0]] = idx
+        pt_dict[line[1]] = idx
+
+    flag_alone = []
+    for idx_alone , eline in enumerate(alone):
+        isp = []  # 用于记录有哪些连接
+        for idx, pt in enumerate([eline.pt1, eline.pt2]):  # 遍历俩节点
+            for dx in [-1, 0, 1]:
+                for dy in [-1, 0, 1]:
+                    if (pt[0] + dx, pt[1] + dy) in pt_dict and eline.color == lines[pt_dict[(pt[0] + dx, pt[1] + dy)]][2]:  # 颜色和颜色
+                        isp.append(pt_dict[(pt[0] + dx, pt[1] + dy)])
+
+        if len(isp) == 1:
+            pair_uf.union(isp[0], len(lines))
+            lines.append([eline.pt1, eline.pt2, eline.color])
+            flag_alone.append(idx_alone)
+        else:
+            for i, it in enumerate(isp):
+                for jt in isp[i + 1:]:
+                    line1 = [*lines[it][0], *lines[jt][1]]
+                    line2 = [*lines[jt][0], *lines[it][1]]
+                    if abs(_get_k(line1) - _get_k(line2)) < 1 and abs(_get_b(line1) - _get_b(line2)) < 1 and (
+                            1 <= abs(_get_k(line1)) <= 999):
+                        pair_uf.union(it, jt)
+                        flag_alone.append(idx_alone)
+
+    new_lines = []
+    # 还要再合并
+    sets = pair_uf.get_sets()
+    num_lines = len(lines)
+    for i, set_ in enumerate(sets):
+        if len(set_) > 1:
+            new_lines.append(merge_line([lines[i] for i in set_]))
+        else:
+            if set_[0] >= num_lines:
+                continue
+            new_lines.append(lines[set_[0]])
+    lines = new_lines
+
+    flag_alone = set(flag_alone)
+    alone = [alone[i] for i in range(len(alone)) if i in flag_alone]
+
     return lines, elines, alone
-
-
 
 def _get_k(line):
     x0, y0, x1, y1 = line
