@@ -294,6 +294,12 @@ def get_eline_faster(img, cfg):
         if tuple(img_pad[minx - 1, maxy + 1]) == color:
             el.append_dir(-1)
 
+        # 如果一个线元同时拥有左对角和有点对角方向，做复制为两个
+        if el.dir_eq([1, 1, 0, 0]):
+            el2 = ELine((pt1[1], pt1[0]), (pt2[1], pt2[0]), 'dot' if pt1 == pt2 else 'line', k1, k2, color, volume)
+            el2.dir = np.array([1, 0, 0, 0])
+            elines.append(el2)
+            el.dir = np.array([0, 1, 0, 0])
         elines.append(el)
 
     return elines
