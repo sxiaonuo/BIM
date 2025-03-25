@@ -4,10 +4,22 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测">
+    <list default="true" id="e1a92a3e-66c4-49f6-9eaa-2ff3c7599317" name="Changes" comment="【直线检测】成功提前了获取轮廓的时间点&#10;1. 对get_eline做了修改，新版本将交叉点处的线元复制为两个不同方向的线元">
+      <change afterPath="$PROJECT_DIR$/VIT/learn.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VIT/predict.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VIT/train.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VIT/vit.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/VIT/wait.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/基于VIT的目标检测/main.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/基于VIT的目标检测/main.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/基于VIT的目标检测/联通发现_目标裁剪.py" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/线条权重分析/main.ipynb" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/线条权重分析/one469.ipynb" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/detect_line.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/detect_line.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/粗线检测/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/粗线检测/main.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils/hot.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/hot.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/直线过滤组件/实体评分组件.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/连通发现/实体评分组件.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,8 +29,8 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Jupyter Notebook" />
         <option value="Python Script" />
+        <option value="Jupyter Notebook" />
       </list>
     </option>
   </component>
@@ -36,7 +48,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="lzk" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -45,16 +57,15 @@
   &quot;lastFilter&quot;: {}
 }</component>
   <component name="GitHubPullRequestState">{
-  &quot;prStates&quot;: [
-    {
-      &quot;id&quot;: {
-        &quot;id&quot;: &quot;PR_kwDOOCLNOc6NGAVe&quot;,
-        &quot;number&quot;: 1
-      },
-      &quot;lastSeen&quot;: 1740978702485
-    }
-  ]
+  &quot;prStates&quot;: []
 }</component>
+  <component name="GithubProjectSettings">
+    <option name="branchProtectionPatterns">
+      <list>
+        <option value="main" />
+      </list>
+    </option>
+  </component>
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/sxiaonuo/BIM.git&quot;,
@@ -75,15 +86,25 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;Python.copy.executor&quot;: &quot;Run&quot;,
+    &quot;Python.dataset.executor&quot;: &quot;Run&quot;,
+    &quot;Python.debug1.executor&quot;: &quot;Run&quot;,
     &quot;Python.detect_connect.executor&quot;: &quot;Run&quot;,
     &quot;Python.detect_line.executor&quot;: &quot;Run&quot;,
     &quot;Python.main.executor&quot;: &quot;Run&quot;,
+    &quot;Python.model.executor&quot;: &quot;Run&quot;,
     &quot;Python.now_good.executor&quot;: &quot;Run&quot;,
+    &quot;Python.predict.executor&quot;: &quot;Run&quot;,
+    &quot;Python.tools.executor&quot;: &quot;Run&quot;,
+    &quot;Python.train.executor&quot;: &quot;Run&quot;,
+    &quot;Python.wait (1).executor&quot;: &quot;Run&quot;,
+    &quot;Python.wait.executor&quot;: &quot;Run&quot;,
     &quot;Python.测试detect_line.executor&quot;: &quot;Run&quot;,
+    &quot;Python.联通发现_目标裁剪.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
     &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;last_opened_file_path&quot;: &quot;E:/code/pythonCode/BIM/static/img&quot;,
+    &quot;last_opened_file_path&quot;: &quot;G:/DeepLearning/Faster-RCNN&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -95,21 +116,22 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="E:\code\pythonCode\BIM\static\img" />
-      <recent name="E:\code\pythonCode\BIM\粗线检测" />
-      <recent name="E:\code\pythonCode\BIM\utils" />
-      <recent name="E:\code\pythonCode\BIM\src_img" />
+      <recent name="E:\code\pythonCode\BIM\基于VIT的目标检测" />
+      <recent name="E:\code\pythonCode\BIM\VIT\model" />
       <recent name="E:\code\pythonCode\BIM\连通发现" />
+      <recent name="E:\code\pythonCode\BIM\消除线元畸变" />
+      <recent name="E:\code\pythonCode\BIM\直线检测" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="E:\code\pythonCode\BIM\VIT" />
       <recent name="E:\code\pythonCode\BIM\static\img" />
       <recent name="E:\code\pythonCode\BIM\直线检测" />
       <recent name="E:\code\pythonCode\BIM" />
       <recent name="E:\code\pythonCode\BIM\src_img" />
     </key>
   </component>
-  <component name="RunManager" selected="Python.detect_line">
-    <configuration name="detect_connect" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+  <component name="RunManager" selected="Python.main">
+    <configuration name="detect_line" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BIM" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -118,12 +140,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/连通发现" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/连通发现/detect_connect.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/detect_line.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -132,7 +154,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="测试detect_line" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+    <configuration name="detect_line" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="BIM" />
       <option name="ENV_FILES" value="" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -141,12 +163,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/连通发现" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/连通发现/测试detect_line.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/utils/detect_line.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -233,12 +255,104 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/粗线检测" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/基于VIT的目标检测" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/粗线检测/main.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/基于VIT的目标检测/main.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="predict" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BIM" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VIT" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VIT/predict.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="train" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BIM" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VIT" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VIT/train.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="wait (1)" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BIM" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/VIT" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/VIT/wait.py" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration name="wait" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
+      <module name="BIM" />
+      <option name="ENV_FILES" value="" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/utils" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="E:\code\pythonCode\BIM\VIT\wait.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -249,11 +363,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Python.detect_line" />
         <item itemvalue="Python.main" />
-        <item itemvalue="Python.测试detect_line" />
-        <item itemvalue="Python.detect_connect" />
-        <item itemvalue="Python.main" />
+        <item itemvalue="Python.predict" />
+        <item itemvalue="Python.wait (1)" />
+        <item itemvalue="Python.wait" />
+        <item itemvalue="Python.train" />
       </list>
     </recent_temporary>
   </component>
@@ -288,7 +402,26 @@
       <workItem from="1741187058723" duration="888000" />
       <workItem from="1741311097575" duration="2232000" />
       <workItem from="1741322546359" duration="854000" />
-      <workItem from="1741323874316" duration="2315000" />
+      <workItem from="1741323874316" duration="2649000" />
+      <workItem from="1741507125748" duration="73000" />
+      <workItem from="1741662863634" duration="2371000" />
+      <workItem from="1741789387613" duration="3869000" />
+      <workItem from="1741855310681" duration="11734000" />
+      <workItem from="1741928344625" duration="2875000" />
+      <workItem from="1741940407307" duration="13060000" />
+      <workItem from="1741957939627" duration="147000" />
+      <workItem from="1742104034158" duration="5966000" />
+      <workItem from="1742205611464" duration="16000" />
+      <workItem from="1742361611555" duration="2323000" />
+      <workItem from="1742462080130" duration="7481000" />
+      <workItem from="1742560238332" duration="5126000" />
+      <workItem from="1742610002635" duration="11741000" />
+      <workItem from="1742699269664" duration="2663000" />
+      <workItem from="1742716144099" duration="2026000" />
+      <workItem from="1742734092829" duration="13255000" />
+      <workItem from="1742788293913" duration="2983000" />
+      <workItem from="1742804848562" duration="12395000" />
+      <workItem from="1742878968983" duration="3492000" />
     </task>
     <task id="LOCAL-00001" summary="邹乐凡代码">
       <option name="closed" value="true" />
@@ -322,7 +455,47 @@
       <option name="project" value="LOCAL" />
       <updated>1741324832234</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法">
+      <option name="closed" value="true" />
+      <created>1741326406080</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1741326406080</updated>
+    </task>
+    <task id="LOCAL-00006" summary="【直线检测】使用凸包直径优化直线检测的合并步骤">
+      <option name="closed" value="true" />
+      <created>1741526844435</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1741526844435</updated>
+    </task>
+    <task id="LOCAL-00007" summary="新增处理alone">
+      <option name="closed" value="true" />
+      <created>1741930521968</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1741930521968</updated>
+    </task>
+    <task id="LOCAL-00008" summary="alone处理完成">
+      <option name="closed" value="true" />
+      <created>1741951025505</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1741951025505</updated>
+    </task>
+    <task id="LOCAL-00009" summary="【直线检测】成功提前了获取轮廓的时间点&#10;1. 对get_eline做了修改，新版本将交叉点处的线元复制为两个不同方向的线元">
+      <option name="closed" value="true" />
+      <created>1741955644401</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1741955644401</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -376,13 +549,28 @@
     <MESSAGE value="最完美的老版本" />
     <MESSAGE value="最完美的老版本&#10;1. 不包含粗线检测，不包含消除线元畸变&#10;2. 此提交删除了“直线检测”文件夹下的直线检测代码，以防混淆" />
     <MESSAGE value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
-    <option name="LAST_COMMIT_MESSAGE" value="消除线元畸变版本&#10;1. 修改了消除畸变函数，仍然以ELine进行存储&#10;2. 将消除畸变整合至直线检测" />
+    <MESSAGE value="消除线元畸变+粗线检测版本（存在少数缺线）&#10;1. 粗线检测采用边缘-细线的方法" />
+    <MESSAGE value="【直线检测】使用凸包直径优化直线检测的合并步骤" />
+    <MESSAGE value="新增处理alone" />
+    <MESSAGE value="alone处理完成" />
+    <MESSAGE value="【直线检测】成功提前了获取轮廓的时间点&#10;1. 对get_eline做了修改，新版本将交叉点处的线元复制为两个不同方向的线元" />
+    <option name="LAST_COMMIT_MESSAGE" value="【直线检测】成功提前了获取轮廓的时间点&#10;1. 对get_eline做了修改，新版本将交叉点处的线元复制为两个不同方向的线元" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/BIM$detect_line__1_.coverage" NAME="detect_line (1) Coverage Results" MODIFIED="1741271064567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/BIM$tools.coverage" NAME="tools Coverage Results" MODIFIED="1742745378673" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VIT/data" />
+    <SUITE FILE_PATH="coverage/BIM$debug1.coverage" NAME="debug1 Coverage Results" MODIFIED="1741866292801" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/直线检测" />
+    <SUITE FILE_PATH="coverage/BIM$wait.coverage" NAME="wait Coverage Results" MODIFIED="1742788330023" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/BIM$predict.coverage" NAME="predict Coverage Results" MODIFIED="1742879967333" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VIT" />
+    <SUITE FILE_PATH="coverage/BIM$train.coverage" NAME="train Coverage Results" MODIFIED="1742745451649" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VIT" />
     <SUITE FILE_PATH="coverage/BIM$detect_connect.coverage" NAME="detect_connect Coverage Results" MODIFIED="1740736531882" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/连通发现" />
+    <SUITE FILE_PATH="coverage/BIM$dataset.coverage" NAME="dataset Coverage Results" MODIFIED="1742744764710" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VIT" />
     <SUITE FILE_PATH="coverage/BIM$now_good.coverage" NAME="now_good Coverage Results" MODIFIED="1740725009981" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/BIM$detect_line.coverage" NAME="detect_line Coverage Results" MODIFIED="1741325867374" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1741324954967" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/粗线检测" />
+    <SUITE FILE_PATH="coverage/BIM$detect_line.coverage" NAME="detect_line Coverage Results" MODIFIED="1742614025278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/BIM$detect_line__1_.coverage" NAME="detect_line (1) Coverage Results" MODIFIED="1741271064567" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
+    <SUITE FILE_PATH="coverage/BIM$copy.coverage" NAME="copy Coverage Results" MODIFIED="1741946336029" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/直线检测" />
+    <SUITE FILE_PATH="coverage/BIM$model.coverage" NAME="model Coverage Results" MODIFIED="1742738996361" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VIT" />
+    <SUITE FILE_PATH="coverage/BIM$_.coverage" NAME="联通发现_目标裁剪 Coverage Results" MODIFIED="1742741383303" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/连通发现" />
+    <SUITE FILE_PATH="coverage/BIM$wait__1_.coverage" NAME="wait (1) Coverage Results" MODIFIED="1742788489258" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/VIT" />
+    <SUITE FILE_PATH="coverage/BIM$main.coverage" NAME="main Coverage Results" MODIFIED="1742880403215" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/基于VIT的目标检测" />
   </component>
 </project>

@@ -130,24 +130,82 @@ def eliminate_distortion(elines, img_size):
                 elines[idx].transform_coord((x1, y1), (x2 - 1, y2))
     return elines
 
-def get_contours(img):
+def get_eline(img, cfg):
     """
-    输入原图，去芯，保留图片轮廓。存在颜色差异则判断为轮廓
-    :param img:
-    :return: 还是图片
-    """
-    gray = img.sum(axis=2)
-    nowhite = np.where(gray <= 254 * 3)
-    nowhite = set(zip(*nowhite))
-    img_padding = np.zeros((img.shape[0] + 1, img.shape[1] + 1, 3), dtype=np.uint8)
-    img_padding[:-1, :-1, :] = img
+    目前主要就是这个函数慢，可以用numpy来优化，能大大加快
 
-    white = np.ones_like(img, dtype=np.uint8 ) * 255
-    for x, y in nowhite:
-        for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
-            if (x + dx, y + dy) not in nowhite or (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
-                white[x, y] = img[x, y]
-    return white
+    :param img: ndarray 图片
+    :param cfg:
+    :return: 带有斜率，颜色的线元
+    """
+    thin = get_thin(img, cfg)
+    w, h = thin.shape[:2]
+    thin_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
+    thin_pad[:-1, :-1] = thin
+    img_pad = np.ones((w + 1, h + 1, 3), dtype=np.uint8) * 255
+    img_pad[:-1, :-1, :] = img
+    h_line = []
+    for y in range(w + 1):
+        tp = None
+        for x in range(h + 1):
+            if thin_pad[y, x] == 0:
+                if tp is None:
+                    tp = x
+                elif (img[y, x] != img[y, tp]).any():
+                    h_line.append([y, tp, y, x - 1])
+                    tp = x
+            else:
+                if tp is not None:
+                    h_line.append([y, tp, y, x - 1])
+                    tp = None
+
+    v_line = []
+    for x in range(h + 1):
+        tp = None
+        for y in range(w + 1):
+            if thin_pad[y, x] == 0:
+                if tp is None:
+                    tp = y
+                elif (img[y, x] != img[tp, x]).any():
+                    v_line.append([tp, x, y - 1, x])
+                    tp = y
+            else:
+                if tp is not None:
+                    v_line.append([tp, x, y - 1, x])
+                    tp = None
+
+    dot1 = [(line[0], line[1]) for line in h_line if (line[0], line[1]) == (line[2], line[3])]
+    dot2 = [(line[0], line[1]) for line in v_line if (line[0], line[1]) == (line[2], line[3])]
+    dots = list(set(dot2) - (set(dot2) - set(dot1)))
+    dots = [[d[0], d[1], d[0], d[1]] for d in dots]
+    h_line = [line for line in h_line if (line[0], line[1]) != (line[2], line[3])]
+    v_line = [line for line in v_line if (line[0], line[1]) != (line[2], line[3])]
+    # 创建Eline, 上颜色，上方向
+    elines = []
+    for eline in [*v_line, *h_line, *dots]:
+        pt1 = (eline[0], eline[1])
+        pt2 = (eline[2], eline[3])
+        color = tuple([int(it) for it in img[pt1]])
+        k = (pt2[1] - pt1[1] + 1) / (pt2[0] - pt1[0] + 1)
+        volume = max(abs(pt2[0] - pt1[0]), abs(pt2[1] - pt1[1])) + 1
+
+        el = ELine(pt1, pt2, 'dot' if pt1 == pt2 else 'line', abs(k), color, volume)
+        # 加方向
+        minx, maxx = sorted([pt1[0], pt2[0]])
+        miny, maxy = sorted([pt1[1], pt2[1]])
+        if tuple(img_pad[minx - 1, miny - 1]) == color:
+            el.append_dir(1)
+        if tuple(img_pad[maxx + 1, maxy + 1]) == color:
+            el.append_dir(1)
+        if tuple(img_pad[maxx + 1, miny - 1]) == color:
+            el.append_dir(-1)
+        if tuple(img_pad[minx - 1, maxy + 1]) == color:
+            el.append_dir(-1)
+
+        elines.append(el)
+
+    return elines
+
 
 def get_eline_faster(img, cfg):
     """
@@ -157,15 +215,15 @@ def get_eline_faster(img, cfg):
     :param cfg:
     :return: 带有斜率，颜色的线元
     """
-    w, h = img.shape[:2]
-    contours_img = get_contours(img)
-    gray_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
-    gray_pad[:-1, :-1] = cv2.cvtColor(contours_img, cv2.COLOR_BGR2GRAY)
+    thin = get_thin(img, cfg)
+    w, h = thin.shape[:2]
+    thin_pad = np.ones((w + 1, h + 1), dtype=np.uint8) * 255
+    thin_pad[:-1, :-1] = thin
     img_pad = np.ones((w + 1, h + 1, 3), dtype=np.uint8) * 255
-    img_pad[:-1, :-1, :] = contours_img
+    img_pad[:-1, :-1, :] = img
     h_line = []
-    _, binary = cv2.threshold(gray_pad, 245, 255, cv2.THRESH_BINARY)
-    nowhite = np.where(binary != 255)
+
+    nowhite = np.where(thin_pad != 255)
     nowhite = list(zip(*nowhite))
     if len(nowhite) == 0:
         return []
@@ -174,7 +232,7 @@ def get_eline_faster(img, cfg):
     head = n1[0]
     tail = n1[0]
     for i, it in enumerate(n1[1:]):
-        if it[0] == n1[i][0] and it[1] - n1[i][1] == 1 and (img_pad[it] == img_pad[n1[i]]).all():
+        if it[0] == n1[i][0] and it[1] - n1[i][1] == 1 and (img[it] == img[n1[i]]).all():
             tail = it
             continue
         h_line.append([head[0], head[1], tail[0], tail[1]])
@@ -187,7 +245,7 @@ def get_eline_faster(img, cfg):
     tail = n2[0]
     v_line = []
     for i, it in enumerate(n2[1:]):
-        if it[1] == n2[i][1] and it[0] - n2[i][0] == 1 and (img_pad[it] == img_pad[n2[i]]).all():
+        if it[1] == n2[i][1] and it[0] - n2[i][0] == 1 and (img[it] == img[n2[i]]).all():
             tail = it
             continue
         v_line.append([head[0], head[1], tail[0], tail[1]])
@@ -213,7 +271,7 @@ def get_eline_faster(img, cfg):
         y_coords = range(pt1[1], pt2[1] + 1) if pt2[1] > pt1[1] else range(pt1[1], pt2[1] - 1, -1)
         colors = defaultdict(int)
         for x, y in zip(x_coords, y_coords):
-            colors[tuple([int(it) for it in img_pad[(x, y)]])] += 1
+            colors[tuple([int(it) for it in img[(x, y)]])] += 1
         color = max(colors, key=colors.get)
 
         # color = tuple([int(it) for it in img[pt1]])
@@ -235,6 +293,7 @@ def get_eline_faster(img, cfg):
             el.append_dir(-1)
         if tuple(img_pad[minx - 1, maxy + 1]) == color:
             el.append_dir(-1)
+
         # 如果一个线元同时拥有左对角和有点对角方向，做复制为两个
         if el.dir_eq([1, 1, 0, 0]):
             el2 = ELine((pt1[1], pt1[0]), (pt2[1], pt2[0]), 'dot' if pt1 == pt2 else 'line', k1, k2, color, volume)
@@ -244,6 +303,22 @@ def get_eline_faster(img, cfg):
         elines.append(el)
 
     return elines
+
+def get_contours(img):
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    _, binary = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)
+    nowhite = np.where(binary != 255)
+    nowhite = set(zip(*nowhite))
+    img_padding = np.zeros((img.shape[0] + 1, img.shape[1] + 1, 3), dtype=np.uint8)
+    img_padding[:-1, :-1, :] = img
+
+    white = np.ones_like(img, dtype=np.uint8 ) * 255
+    for x, y in nowhite:
+        for dx, dy in zip([0, 1, 0, -1], [1, 0, -1, 0]):
+            if (x + dx, y + dy) not in nowhite or (img_padding[x + dx, y + dy] != img_padding[x, y]).any():
+                white[x, y] = img[x, y]
+    return white
+
 
 class ChainForwardStar:
     # 链式前向星
@@ -556,9 +631,7 @@ def detect_one_img(img, cfg):
     flag_alone = set(flag_alone)
     alone = [alone[i] for i in range(len(alone)) if i in flag_alone]
 
-    return lines, (elines, alone)
-
-
+    return lines, elines, alone
 
 def _get_k(line):
     x0, y0, x1, y1 = line
@@ -670,9 +743,9 @@ def concat_line(total_lines, cfg):
 def detect_lines(img, cfg=get_cfg_defaults()):
     # 裁剪。这个版本的方法时间复杂度与图片尺寸呈近似线性关系，其实不再需要用裁剪的方式加快检测速度，因此我使用了2048的裁剪尺寸，仅为了不让等待那么焦虑。
     if img.shape[:2] < (cfg.DETECT.HEIGHT, cfg.DETECT.WIDTH):
-        lines, (all_elines, alones) = detect_one_img(img, cfg)
+        lines, all_elines, alone = detect_one_img(img, cfg)
         all_elines = [[eline.pt1, eline.pt2, eline.color] for eline in all_elines]
-        return concat_line(lines, cfg), lines, all_elines
+        return concat_line(lines, cfg), (lines, all_elines, alone)
 
     # 计算裁剪坐标
     img_width, img_height = img.shape[:2]
@@ -688,22 +761,21 @@ def detect_lines(img, cfg=get_cfg_defaults()):
     alones = []
     for i, j in itr:
         crop_img = img[i:min(i + crop_width, img_width), j:min(j + crop_height, img_height)]
-        lines, (elines, alone) = detect_one_img(crop_img, cfg)
+        lines, elines, alone = detect_one_img(crop_img, cfg)
         total_lines.extend(
             [[(line[0][0] + j, line[0][1] + i), (line[1][0] + j, line[1][1] + i), line[2]] for line in lines])
         all_elines.extend(
-            [[(eline.pt1[0] + j, eline.pt1[1] + i), (eline.pt2[0] + j, eline.pt2[1] + i), eline.color] for eline in
-             elines]
+            [[(eline.pt1[0] + j, eline.pt1[1] + i), (eline.pt2[0] + j, eline.pt2[1] + i), eline.color] for eline in elines]
         )
         alones.extend(
-            [[(eline.pt1[0] + j, eline.pt1[1] + i), (eline.pt2[0] + j, eline.pt2[1] + i), eline.color] for eline in
-             alone]
+            [[(eline.pt1[0] + j, eline.pt1[1] + i), (eline.pt2[0] + j, eline.pt2[1] + i), eline.color] for eline in alone]
         )
+
+
     # 合并不同patch的直线
     lines = concat_line(total_lines, cfg)
 
     return lines, (total_lines, all_elines, alones)
-
 
 
 if __name__ == '__main__':
@@ -715,8 +787,9 @@ if __name__ == '__main__':
 
     #######################################################
     # 示例代码
-    ori_img = cv2.imread('../static/img/4.png')
+    ori_img = cv2.imread('../static/img/b1.png')
     # ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
+    ori_img = ori_img[3000:-3000, 3000:-3000, :]  # 为了更快看到结果，只截取一部分
     # ori_img = cv2.imread('../static/img/b1.png')
     # ori_img = ori_img[5000:8000, 5000:7000, :]
     ori_img = cv2.cvtColor(ori_img, cv2.COLOR_BGR2RGB)
@@ -730,8 +803,20 @@ if __name__ == '__main__':
         if idx == 5:
             print("...")
             break
-    contours_img = get_contours(ori_img)
-    Image.fromarray(contours_img).save(cfg.SAVE_DIR + 'contours.png')
+
+    white = np.ones_like(ori_img) * 255
+    for line in lines:
+        color = line[2]
+        pt1 = line[0]
+        pt2 = line[1]
+        cv2.line(white, pt1, pt2, color, 1)
+    for line in alones:
+        color = (255, 0, 0)
+        pt1 = line[0]
+        pt2 = line[1]
+        cv2.line(white, pt1, pt2, color, 1)
+    Image.fromarray(white).save(cfg.SAVE_DIR + 'alone.png')
+    # exit(0)
     white = np.ones_like(ori_img) * 255
     for line in lines:
         color = (random.randint(0, 255), random.randint(0, 255), random.randint(0, 255))
