@@ -20,6 +20,7 @@ def hot_detect_line(fp, width=None, height=None, cfg=None, path='../static/recor
         record = json.load(record_f)
     # 如果没有记录则reload
     if key not in record["line"]:
+        print("mw ji lu", key)
         reload = True
     num_record = len(record["line"])
     if reload:
@@ -47,7 +48,7 @@ def hot_detect_line(fp, width=None, height=None, cfg=None, path='../static/recor
         lines = json.load(open(record["line"][key]))
         return lines
 
-def hot_dectect_connect(fp, width=None, height=None, cfg=None, path='../static/record', reload=False):
+def hot_detect_connect(fp, width=None, height=None, cfg=None, path='../static/record', reload=False):
     """
     因为不去虾线太慢了，所以默认去虾线
     :param fp:

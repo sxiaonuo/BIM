@@ -17,7 +17,7 @@ transform = transforms.Compose([
 ])
 
 # 读取数据
-fp = os.path.join("data/4")
+fp = os.path.join("data/zero/4")
 dataset = datasets.ImageFolder(fp, transform=transform)
 train_dataset, test_dataset = torch.utils.data.random_split(dataset, [int(len(dataset) * 0.8), len(dataset) - int(len(dataset) * 0.8)])
 

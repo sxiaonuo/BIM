@@ -131,7 +131,8 @@ class ViT(nn.Sequential):
             ClassificationHead(emb_size, n_classes)
         )
 
+
 if __name__ == '__main__':
-    x = torch.randn(1, 3, 224, 224)
+    x = torch.randn(2, 3, 224, 224)
     model = ViT()
     print(model(x).shape)

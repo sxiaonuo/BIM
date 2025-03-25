@@ -52,4 +52,4 @@ if __name__ == '__main__':
     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
     vit = ViT(in_channels=3, patch_size=16, emb_size=768, img_size=224, depth=12, n_classes=10).to(device)
     vit.load_state_dict(torch.load('../VIT/vit_model.pth'))
-    print(predict_img(model=vit, img_path="data/-1", device=device))
+    print(predict_img(model=vit, img_path="data/zero/-1", device=device))
