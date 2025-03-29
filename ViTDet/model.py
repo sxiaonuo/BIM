@@ -400,30 +400,22 @@ class ViTDet(nn.Module):
         self.roi_heads = nn.Sequential(
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
             # 添加形状转换
-            Rearrange('b c h w -> b (h w) c'),
-            nn.LayerNorm(256),
-            Rearrange('b (h w) c -> b c h w', h=56, w=56),  # 假设输入是56x56
+            nn.BatchNorm2d(256),
 
             nn.GELU(),
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
             # 添加形状转换
-            Rearrange('b c h w -> b (h w) c'),
-            nn.LayerNorm(256),
-            Rearrange('b (h w) c -> b c h w', h=56, w=56),
+            nn.BatchNorm2d(256),
 
             nn.GELU(),
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
             # 添加形状转换
-            Rearrange('b c h w -> b (h w) c'),
-            nn.LayerNorm(256),
-            Rearrange('b (h w) c -> b c h w', h=56, w=56),
+            nn.BatchNorm2d(256),
 
             nn.GELU(),
             nn.Conv2d(256, 256, kernel_size=3, padding=1),
             # 添加形状转换
-            Rearrange('b c h w -> b (h w) c'),
-            nn.LayerNorm(256),
-            Rearrange('b (h w) c -> b c h w', h=56, w=56),
+            nn.BatchNorm2d(256),
 
             nn.GELU(),
             nn.AdaptiveAvgPool2d(1),
